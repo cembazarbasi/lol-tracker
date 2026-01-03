@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoL Rank Tracker</title>
+    <!-- Using Bootstrap for quick, nice styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .table {
+            color: #e0e0e0;
+            margin-bottom: 0;
+        }
+        .table thead th {
+            border-bottom: 2px solid #333;
+            color: #a0a0a0;
+        }
+        .table td, .table th {
+            border-top: 1px solid #333;
+            vertical-align: middle;
+        }
+        .rank-tier {
+            font-weight: bold;
+            color: #f1c40f; /* Gold color for rank */
+        }
+        .lp-text {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+        .winrate-high {
+            color: #2ecc71;
+        }
+        .winrate-low {
+            color: #e74c3c;
+        }
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #f1c40f;
+        }
+        .days-counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00d2be;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Caners Lol Journey</h2>
+            <div class="text-center mb-4">
+                He has been playing LoL for <span class="days-counter">{{ days_played }}</span> days
+            </div>
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="ps-4">Profile</th>
+                                <th scope="col">Solo/Duo Rank</th>
+                                <th scope="col">Solo Stats</th>
+                                <th scope="col">Flex Rank</th>
+                                <th scope="col">Flex Stats</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in players %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <div class="fw-bold">{{ p.name }}</div>
+                                            <div class="text-muted small">#{{ p.tag }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <!-- Solo/Duo Column -->
+                                <td>
+                                    <div class="rank-tier">{{ p.solo.rank }}</div>
+                                    <div class="lp-text">{{ p.solo.lp }} LP</div>
+                                </td>
+                                <td>
+                                    <div>{{ p.solo.wins }}W - {{ p.solo.losses }}L</div>
+                                    <div class="{{ 'winrate-high' if p.solo.wr >= 50 else 'winrate-low' }}">
+                                        {{ p.solo.wr }}%
+                                    </div>
+                                </td>
+
+                                <!-- Flex Column -->
+                                <td>
+                                    <div class="rank-tier">{{ p.flex.rank }}</div>
+                                    <div class="lp-text">{{ p.flex.lp }} LP</div>
+                                </td>
+                                <td>
+                                    <div>{{ p.flex.wins }}W - {{ p.flex.losses }}L</div>
+                                    <div class="{{ 'winrate-high' if p.flex.wr >= 50 else 'winrate-low' }}">
+                                        {{ p.flex.wr }}%
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3 text-muted small">
+                Refreshes on page reload.
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
