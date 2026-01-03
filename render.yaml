@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: lol-tracker
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: RIOT_API_KEY
+        sync: false
